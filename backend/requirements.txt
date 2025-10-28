@@ -11,3 +11,12 @@ alembic==1.17.0
 pytest==8.4.2
 pytest-asyncio==1.2.0
 httpx==0.28.1
+# Video processing dependencies
+opencv-python==4.10.0.84
+Pillow==10.4.0
+# Cloud storage dependencies
+boto3==1.35.89
+google-cloud-storage==2.15.0
+# Additional utilities
+aiofiles==24.1.0
+email-validator==2.2.0
