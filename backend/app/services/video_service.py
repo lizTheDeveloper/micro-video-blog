@@ -14,7 +14,7 @@ from config import DEBUG
 
 class VideoProcessingService:
     def __init__(self):
-        self.max_duration = 5.0  # 5 seconds
+        self.max_duration = 10.0  # 10 seconds (temporarily increased for testing)
         self.allowed_formats = ["mp4", "webm", "mov"]
         self.max_file_size = 100 * 1024 * 1024  # 100MB
         
@@ -142,7 +142,8 @@ class VideoProcessingService:
                 new_height = height
             
             # Define codec and create VideoWriter
-            fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+            # Use H.264 codec for better browser compatibility
+            fourcc = cv2.VideoWriter_fourcc(*'avc1')
             out = cv2.VideoWriter(output_path, fourcc, fps, (new_width, new_height))
             
             while True:
@@ -180,6 +181,7 @@ class VideoProcessingService:
         file_extension = file.filename.split('.')[-1].lower()
         unique_filename = f"{uuid.uuid4()}.{file_extension}"
         temp_path = f"temp_{unique_filename}"
+        thumbnail_filename = None  # Initialize for cleanup
         
         try:
             # Read file content
@@ -264,9 +266,13 @@ class VideoProcessingService:
             # Clean up files on error
             temp_file_path = os.path.join("uploads", temp_path)
             optimized_path = os.path.join("uploads", f"optimized_{unique_filename}")
-            thumbnail_path = os.path.join("uploads", f"temp_{thumbnail_filename}")
             
-            for file_path in [temp_file_path, optimized_path, thumbnail_path]:
+            cleanup_files = [temp_file_path, optimized_path]
+            if thumbnail_filename:
+                thumbnail_path = os.path.join("uploads", f"temp_{thumbnail_filename}")
+                cleanup_files.append(thumbnail_path)
+            
+            for file_path in cleanup_files:
                 if os.path.exists(file_path):
                     os.remove(file_path)
             

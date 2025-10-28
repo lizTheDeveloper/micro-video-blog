@@ -276,9 +276,11 @@ async def stream_video(
     
     # Get video file path
     if USE_CLOUD_STORAGE:
-        # For GCS, we'll redirect to the public URL for now
-        # In production, you might want to implement signed URLs or proxy through your server
-        return {"video_url": video.video_url, "filename": video.filename}
+        # For GCS, redirect to the public URL
+        return Response(
+            status_code=302,
+            headers={"Location": video.video_url}
+        )
     else:
         # For local storage, implement range request support
         return await _stream_local_video(video, request)

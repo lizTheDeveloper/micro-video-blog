@@ -24,7 +24,7 @@ app = FastAPI(
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],  # React dev server
+    allow_origins=["http://localhost:3212", "http://127.0.0.1:3212"],  # React dev server
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -38,8 +38,8 @@ app.include_router(videos_router)
 # Mount static files for video and thumbnail serving
 os.makedirs("uploads/videos", exist_ok=True)
 os.makedirs("uploads/thumbnails", exist_ok=True)
-app.mount("/videos", StaticFiles(directory="uploads/videos"), name="videos")
-app.mount("/thumbnails", StaticFiles(directory="uploads/thumbnails"), name="thumbnails")
+app.mount("/static/videos", StaticFiles(directory="uploads/videos"), name="videos")
+app.mount("/static/thumbnails", StaticFiles(directory="uploads/thumbnails"), name="thumbnails")
 
 @app.get("/")
 async def root():

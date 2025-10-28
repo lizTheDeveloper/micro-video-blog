@@ -26,4 +26,4 @@ USE_CLOUD_STORAGE = os.getenv("USE_CLOUD_STORAGE", "False").lower() == "true"
 # Application Configuration
 DEBUG = os.getenv("DEBUG", "True").lower() == "true"
 HOST = os.getenv("HOST", "0.0.0.0")
-PORT = int(os.getenv("PORT", "8000"))
+PORT = int(os.getenv("PORT", "3211"))
